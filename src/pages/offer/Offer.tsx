@@ -1,5 +1,13 @@
+import { useParams } from 'react-router-dom';
+import {PageNotFound} from '../../components/PageNotFound/PageNotFound.tsx';
 
 function Offer(): JSX.Element {
+  const { id } = useParams<{ id: string }>();
+
+  const offerId = Number(id);
+  if (Number.isNaN(offerId)){
+    return PageNotFound();
+  }
   return (
     <div className="page">
       <header className="header">

@@ -1,9 +1,9 @@
 import { MainPage } from '../../pages/main/MainPage';
 import { Card } from '../../types/Card.tsx';
 import { PrivateRoutes } from '../PrivateRoutes/PrivateRoutes.tsx';
-import {BrowserRouter, Route, Routes} from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { AppRoute } from '../../types/RouteTypes.tsx';
-import {PageNotFound} from '../PageNotFound/PageNotFound.tsx';
+import { PageNotFound } from '../PageNotFound/PageNotFound.tsx';
 
 type AppProps = {
   availableCards: Card[];

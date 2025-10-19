@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import {PageNotFound} from '../../components/PageNotFound/PageNotFound.tsx';
+import { PageNotFound } from '../../components/PageNotFound/PageNotFound.tsx';
 
 function Offer(): JSX.Element {
   const { id } = useParams<{ id: string }>();

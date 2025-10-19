@@ -1,5 +1,5 @@
-import RenderCard from '../../components/RenderCard/RenderCard.tsx';
-import {Card} from '../../types/Card.tsx';
+import { Card } from '../../types/Card.tsx';
+import OffersList from '../../shared/OffersList/OffersList.tsx';
 
 
 export function MainPage(availableCards : Card[]): JSX.Element {
@@ -93,7 +93,7 @@ export function MainPage(availableCards : Card[]): JSX.Element {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                {availableCards.map((card) => RenderCard(card))}
+                <OffersList offers={availableCards} />
               </div>
             </section>
             <div className="cities__right-section">

@@ -8,4 +8,8 @@ export type Card = {
   description : string;
   accommodationType : string;
   city: string;
+  coordinates: {
+    latitude: number;
+    longitude: number;
+  };
 }

@@ -4,15 +4,23 @@ import RenderCard from '../../components/RenderCard/RenderCard.tsx';
 
 type OffersListProps = {
   offers: Card[];
+  onActiveOfferChange?: (offerId: number | null) => void;
 }
 
-function OffersList({ offers }: OffersListProps): JSX.Element {
+function OffersList({ offers, onActiveOfferChange }: OffersListProps): JSX.Element {
   const [, setActiveOfferId] = React.useState<number | null>(null);
+
+  const handleHover = (offerId: number | null) => {
+    setActiveOfferId(offerId);
+    if (onActiveOfferChange) {
+      onActiveOfferChange(offerId);
+    }
+  };
 
   return (
     <React.Fragment>
       {offers.map((card) => (
-        <RenderCard key={card.id} {...card} onHover={setActiveOfferId} />
+        <RenderCard key={card.id} {...card} onHover={handleHover} />
       ))}
     </React.Fragment>
   );

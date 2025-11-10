@@ -10,7 +10,11 @@ export const offers: Card[] = [
     rating: 80,
     description: 'Beautiful & luxurious apartment at great location',
     accommodationType: 'Apartment',
-    city: 'Amsterdam'
+    city: 'Amsterdam',
+    coordinates: {
+      latitude: 52.3909553943508,
+      longitude: 4.85309666406198
+    }
   },
   {
     id: 2,
@@ -21,7 +25,11 @@ export const offers: Card[] = [
     rating: 80,
     description: 'Wood and stone place',
     accommodationType: 'Room',
-    city: 'Amsterdam'
+    city: 'Amsterdam',
+    coordinates: {
+      latitude: 52.3609553943508,
+      longitude: 4.85309666406198
+    }
   },
   {
     id: 3,
@@ -32,7 +40,11 @@ export const offers: Card[] = [
     rating: 80,
     description: 'Canal View Prinsengracht',
     accommodationType: 'Apartment',
-    city: 'Cologne'
+    city: 'Amsterdam',
+    coordinates: {
+      latitude: 52.3909553943508,
+      longitude: 4.929309666406198
+    }
   },
   {
     id: 4,
@@ -43,7 +55,11 @@ export const offers: Card[] = [
     rating: 100,
     description: 'Nice, cozy, warm big bed apartment',
     accommodationType: 'Apartment',
-    city: 'Cologne'
+    city: 'Amsterdam',
+    coordinates: {
+      latitude: 52.3809553943508,
+      longitude: 4.939309666406198
+    }
   }
 ];
 

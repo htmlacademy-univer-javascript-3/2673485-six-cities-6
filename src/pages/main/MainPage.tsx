@@ -1,8 +1,28 @@
 import { Card } from '../../types/Card.tsx';
 import OffersList from '../../shared/OffersList/OffersList.tsx';
+import Map from '../../components/Map/Map.tsx';
+import React from 'react';
+import { City, Point } from '../../types/types.ts';
 
+const AMSTERDAM_CITY: City = {
+  lat: 52.3909553943508,
+  lng: 4.85309666406198,
+  zoom: 10
+};
 
 export function MainPage(availableCards : Card[]): JSX.Element {
+  const [activeOfferId, setActiveOfferId] = React.useState<number | null>(null);
+
+  const points: Point[] = availableCards.map((card) => ({
+    id: card.id,
+    lat: card.coordinates.latitude,
+    lng: card.coordinates.longitude,
+    title: card.description
+  }));
+
+  const selectedPoint: Point | undefined = activeOfferId
+    ? points.find((point) => point.id === activeOfferId)
+    : undefined;
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -93,11 +113,11 @@ export function MainPage(availableCards : Card[]): JSX.Element {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                <OffersList offers={availableCards} />
+                <OffersList offers={availableCards} onActiveOfferChange={setActiveOfferId} />
               </div>
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
+              <Map city={AMSTERDAM_CITY} points={points} selectedPoint={selectedPoint} />
             </div>
           </div>
         </div>

@@ -4,18 +4,20 @@ import { AppRoute } from '../../types/RouteTypes.tsx';
 
 type RenderCardProps = Card & {
   onHover?: (id: number | null) => void;
+  cardClassName?: string;
+  imageWrapperClassName?: string;
 };
 
-export function RenderCard({id, isPremium, imageLink, price, inBookMarks, rating, description, accommodationType, onHover} : RenderCardProps): JSX.Element {
+export function RenderCard({id, isPremium, imageLink, price, inBookMarks, rating, description, accommodationType, onHover, cardClassName = 'cities__card place-card', imageWrapperClassName = 'cities__image-wrapper place-card__image-wrapper'} : RenderCardProps): JSX.Element {
   return (
-    <article className="cities__card place-card" onMouseEnter={() => onHover && onHover(id)} onMouseLeave={() => onHover && onHover(null)}>
+    <article className={cardClassName} onMouseEnter={() => onHover && onHover(id)} onMouseLeave={() => onHover && onHover(null)}>
       {
         isPremium &&
         <div className="place-card__mark">
           <span>Premium</span>
         </div>
       }
-      <div className="cities__image-wrapper place-card__image-wrapper">
+      <div className={imageWrapperClassName}>
         <Link to={`${AppRoute.OfferBase}/${id}`}>
           <img className="place-card__image" src={imageLink} width={260} height={200} alt="Place image" />
         </Link>

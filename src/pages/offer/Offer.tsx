@@ -10,7 +10,6 @@ import offers from '../../mocks/offers.ts';
 import { City, Point } from '../../types/types.ts';
 import { Card } from '../../types/Card.tsx';
 
-// Координаты Амстердама
 const AMSTERDAM_CITY: City = {
   lat: 52.3909553943508,
   lng: 4.85309666406198,
@@ -25,14 +24,12 @@ function Offer(): JSX.Element {
     return PageNotFound();
   }
 
-  // Находим текущее предложение
   const currentOffer: Card | undefined = offers.find((offer) => offer.id === offerId);
 
   if (!currentOffer) {
     return PageNotFound();
   }
 
-  // Преобразуем предложения неподалеку в точки для карты
   const nearbyPoints: Point[] = nearbyOffers.map((offer) => ({
     id: offer.id,
     lat: offer.coordinates.latitude,
@@ -40,7 +37,6 @@ function Offer(): JSX.Element {
     title: offer.description
   }));
 
-  // Добавляем текущее предложение в точки для карты
   const allPoints: Point[] = [
     {
       id: currentOffer.id,
@@ -209,7 +205,7 @@ function Offer(): JSX.Element {
           <section className="offer__map map">
             <Map
               city={AMSTERDAM_CITY}
-              points={allPoints}
+              pointsCheck={allPoints}
               selectedPoint={{
                 id: currentOffer.id,
                 lat: currentOffer.coordinates.latitude,

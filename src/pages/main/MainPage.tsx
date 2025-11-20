@@ -117,7 +117,7 @@ export function MainPage(availableCards : Card[]): JSX.Element {
               </div>
             </section>
             <div className="cities__right-section">
-              <Map city={AMSTERDAM_CITY} points={points} selectedPoint={selectedPoint} />
+              <Map city={AMSTERDAM_CITY} pointsCheck={points} selectedPoint={selectedPoint} />
             </div>
           </div>
         </div>

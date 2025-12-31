@@ -13,6 +13,12 @@ function Map(props: MapProps): JSX.Element {
 
   useEffect(() => {
     if (map) {
+      map.setView({lat: city.lat, lng: city.lng}, city.zoom);
+    }
+  }, [map, city]);
+
+  useEffect(() => {
+    if (map) {
       const markerLayerCheck = layerGroup().addTo(map);
       pointsCheck.forEach((point) => {
         const marker = new Marker({

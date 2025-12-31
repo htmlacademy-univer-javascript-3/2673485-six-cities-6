@@ -1,19 +1,21 @@
-import { Card } from '../../types/Card.tsx';
 import OffersList from '../../shared/OffersList/OffersList.tsx';
 import Map from '../../components/Map/Map.tsx';
 import React from 'react';
-import { City, Point } from '../../types/types.ts';
+import {Point} from '../../types/types.ts';
+import CitiesList from '../../components/CitiesList/CitiesList.tsx';
+import {useDispatch, useSelector} from 'react-redux';
+import {changeCity} from '../../store/actions.ts';
+import {CITY_COORDINATES} from '../../const.ts';
+import {RootState} from '../../store/index.ts';
 
-const AMSTERDAM_CITY: City = {
-  lat: 52.3909553943508,
-  lng: 4.85309666406198,
-  zoom: 10
-};
-
-export function MainPage(availableCards : Card[]): JSX.Element {
+export function MainPage(): JSX.Element {
+  const dispatch = useDispatch();
+  const {city, offers} = useSelector((state: RootState) => state);
   const [activeOfferId, setActiveOfferId] = React.useState<number | null>(null);
 
-  const points: Point[] = availableCards.map((card) => ({
+  const filteredOffers = offers.filter((offer) => offer.city === city);
+
+  const points: Point[] = filteredOffers.map((card) => ({
     id: card.id,
     lat: card.coordinates.latitude,
     lng: card.coordinates.longitude,
@@ -23,6 +25,9 @@ export function MainPage(availableCards : Card[]): JSX.Element {
   const selectedPoint: Point | undefined = activeOfferId
     ? points.find((point) => point.id === activeOfferId)
     : undefined;
+
+  const currentCityCoordinates = CITY_COORDINATES[city];
+
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -56,47 +61,12 @@ export function MainPage(availableCards : Card[]): JSX.Element {
 
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
-        <div className="tabs">
-          <section className="locations container">
-            <ul className="locations__list tabs__list">
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Paris</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Cologne</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Brussels</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item tabs__item--active">
-                  <span>Amsterdam</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Hamburg</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Dusseldorf</span>
-                </a>
-              </li>
-            </ul>
-          </section>
-        </div>
+        <CitiesList currentCity={city} onCityChange={(newCity) => dispatch(changeCity(newCity))} />
         <div className="cities">
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">312 places to stay in Amsterdam</b>
+              <b className="places__found">{filteredOffers.length} places to stay in {city}</b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex={0}>
@@ -113,11 +83,13 @@ export function MainPage(availableCards : Card[]): JSX.Element {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                <OffersList offers={availableCards} onActiveOfferChange={setActiveOfferId} />
+                <OffersList offers={filteredOffers} onActiveOfferChange={setActiveOfferId} />
               </div>
             </section>
             <div className="cities__right-section">
-              <Map city={AMSTERDAM_CITY} pointsCheck={points} selectedPoint={selectedPoint} />
+              {currentCityCoordinates && (
+                <Map city={currentCityCoordinates} pointsCheck={points} selectedPoint={selectedPoint} />
+              )}
             </div>
           </div>
         </div>

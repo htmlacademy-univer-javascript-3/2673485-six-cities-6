@@ -1,13 +1,29 @@
 import React from 'react';
 
-function CommentForm(): JSX.Element {
+type CommentFormProps = {
+  onSubmit: (payload: {comment: string; rating: number}) => Promise<void> | void;
+  isSending?: boolean;
+};
+
+function CommentForm({onSubmit, isSending = false}: CommentFormProps): JSX.Element {
   const [rating, setRating] = React.useState<number | null>(null);
   const [review, setReview] = React.useState('');
 
-  const isSubmitDisabled = !rating || review.trim().length < 50;
+  const isSubmitDisabled = isSending || !rating || review.trim().length < 50;
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!rating || review.trim().length < 50) {
+      return;
+    }
+    void Promise.resolve(onSubmit({comment: review.trim(), rating})).then(() => {
+      setRating(null);
+      setReview('');
+    });
+  };
 
   return (
-    <form className="reviews__form form" action="#" method="post">
+    <form className="reviews__form form" action="#" method="post" onSubmit={handleSubmit}>
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
         {[5,4,3,2,1].map((value) => (
@@ -20,6 +36,7 @@ function CommentForm(): JSX.Element {
               type="radio"
               checked={rating === value}
               onChange={() => setRating(value)}
+              disabled={isSending}
             />
             <label htmlFor={`${value}-stars`} className="reviews__rating-label form__rating-label" title="rating">
               <svg className="form__star-image" width="37" height="33">
@@ -36,6 +53,7 @@ function CommentForm(): JSX.Element {
         placeholder="Tell how was your stay, what you like and what can be improved"
         value={review}
         onChange={(e) => setReview(e.target.value)}
+        disabled={isSending}
       >
       </textarea>
       <div className="reviews__button-wrapper">

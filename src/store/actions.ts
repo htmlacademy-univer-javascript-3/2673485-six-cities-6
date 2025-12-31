@@ -3,6 +3,7 @@ import {Card} from '../types/Card.tsx';
 import {AxiosInstance} from 'axios';
 import {AuthorizationStatus} from '../const.ts';
 import {saveToken} from '../services/token.ts';
+import {Review} from '../types/Review.tsx';
 
 type ServerOffer = {
 	id: string;
@@ -41,6 +42,27 @@ type LoginPayload = {
 	password: string;
 };
 
+type ServerReview = {
+  id: string;
+  date: string;
+  comment: string;
+  rating: number;
+  user: {
+    name: string;
+    avatarUrl: string;
+  };
+};
+
+type PostReviewPayload = {
+  offerId: string;
+  comment: string;
+  rating: number;
+};
+
+type ThunkConfig = {
+  extra: AxiosInstance;
+};
+
 function adaptOfferToClient(offer: ServerOffer): Card {
   return {
     id: offer.id,
@@ -59,12 +81,22 @@ function adaptOfferToClient(offer: ServerOffer): Card {
   };
 }
 
+function adaptReviewToClient(review: ServerReview): Review {
+  return {
+    id: review.id,
+    user: review.user,
+    rating: Math.round(review.rating * 20),
+    comment: review.comment,
+    date: review.date
+  };
+}
+
 export const changeCity = createAction<string>('offers/changeCity');
 export const setAuthStatus = createAction<AuthorizationStatus>('user/setAuthStatus');
 export const setUser = createAction<AuthInfo | null>('user/setUser');
 export const logout = createAction('user/logout');
 
-export const fetchOffers = createAsyncThunk<Card[], undefined, {extra: AxiosInstance}>(
+export const fetchOffers = createAsyncThunk<Card[], undefined, ThunkConfig>(
   'offers/fetchOffers',
   async (_arg, {extra: api}) => {
     const {data} = await api.get<ServerOffer[]>('/offers');
@@ -72,7 +104,7 @@ export const fetchOffers = createAsyncThunk<Card[], undefined, {extra: AxiosInst
   }
 );
 
-export const checkAuth = createAsyncThunk<AuthInfo, undefined, {extra: AxiosInstance}>(
+export const checkAuth = createAsyncThunk<AuthInfo, undefined, ThunkConfig>(
   'user/checkAuth',
   async (_arg, {extra: api}) => {
     const {data} = await api.get<AuthInfo>('/login');
@@ -81,11 +113,43 @@ export const checkAuth = createAsyncThunk<AuthInfo, undefined, {extra: AxiosInst
   }
 );
 
-export const login = createAsyncThunk<AuthInfo, LoginPayload, {extra: AxiosInstance}>(
+export const login = createAsyncThunk<AuthInfo, LoginPayload, ThunkConfig>(
   'user/login',
   async (body, {extra: api}) => {
     const {data} = await api.post<AuthInfo>('/login', body);
     saveToken(data.token);
     return data;
+  }
+);
+
+export const fetchOffer = createAsyncThunk<Card, string, ThunkConfig>(
+  'offer/fetchOffer',
+  async (id, {extra: api}) => {
+    const {data} = await api.get<ServerOffer>(`/offers/${id}`);
+    return adaptOfferToClient(data);
+  }
+);
+
+export const fetchNearby = createAsyncThunk<Card[], string, ThunkConfig>(
+  'offer/fetchNearby',
+  async (id, {extra: api}) => {
+    const {data} = await api.get<ServerOffer[]>(`/offers/${id}/nearby`);
+    return data.map(adaptOfferToClient);
+  }
+);
+
+export const fetchReviews = createAsyncThunk<Review[], string, ThunkConfig>(
+  'offer/fetchReviews',
+  async (id, {extra: api}) => {
+    const {data} = await api.get<ServerReview[]>(`/comments/${id}`);
+    return data.map(adaptReviewToClient);
+  }
+);
+
+export const postReview = createAsyncThunk<Review, PostReviewPayload, ThunkConfig>(
+  'offer/postReview',
+  async ({offerId, comment, rating}, {extra: api}) => {
+    const {data} = await api.post<ServerReview>(`/comments/${offerId}`, {comment, rating});
+    return adaptReviewToClient(data);
   }
 );

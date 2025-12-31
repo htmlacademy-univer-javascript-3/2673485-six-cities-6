@@ -3,6 +3,12 @@ import {City} from './types/types.ts';
 
 export const CITIES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'] as const;
 
+export enum AuthorizationStatus {
+  Auth = 'AUTH',
+  NoAuth = 'NO_AUTH',
+  Unknown = 'UNKNOWN'
+}
+
 export const CITY_COORDINATES: Record<string, City> = {
   Paris: {lat: 48.85661, lng: 2.351499, zoom: 12},
   Cologne: {lat: 50.938361, lng: 6.959974, zoom: 12},

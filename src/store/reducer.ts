@@ -1,23 +1,40 @@
 import {createReducer} from '@reduxjs/toolkit';
 import {Card} from '../types/Card.tsx';
-import {changeCity, fetchOffers} from './actions.ts';
+import {AuthorizationStatus} from '../const.ts';
+import {changeCity, checkAuth, fetchOffers, login, logout, setAuthStatus, setUser} from './actions.ts';
 
 export type OffersState = {
   city: string;
   offers: Card[];
   isOffersLoading: boolean;
+  authorizationStatus: AuthorizationStatus;
+  user: {
+    token: string;
+    email: string;
+    name: string;
+    avatarUrl: string;
+    isPro: boolean;
+  } | null;
 };
 
 const initialState: OffersState = {
   city: 'Paris',
   offers: [],
-  isOffersLoading: false
+  isOffersLoading: false,
+  authorizationStatus: AuthorizationStatus.Unknown,
+  user: null
 };
 
 export const reducer = createReducer(initialState, (builder) => {
   builder
     .addCase(changeCity, (state, action) => {
       state.city = action.payload;
+    })
+    .addCase(setAuthStatus, (state, action) => {
+      state.authorizationStatus = action.payload;
+    })
+    .addCase(setUser, (state, action) => {
+      state.user = action.payload;
     })
     .addCase(fetchOffers.pending, (state) => {
       state.isOffersLoading = true;
@@ -28,5 +45,24 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(fetchOffers.rejected, (state) => {
       state.isOffersLoading = false;
+    })
+    .addCase(checkAuth.fulfilled, (state, action) => {
+      state.authorizationStatus = AuthorizationStatus.Auth;
+      state.user = action.payload;
+    })
+    .addCase(checkAuth.rejected, (state) => {
+      state.authorizationStatus = AuthorizationStatus.NoAuth;
+      state.user = null;
+    })
+    .addCase(login.fulfilled, (state, action) => {
+      state.authorizationStatus = AuthorizationStatus.Auth;
+      state.user = action.payload;
+    })
+    .addCase(login.rejected, (state) => {
+      state.authorizationStatus = AuthorizationStatus.NoAuth;
+    })
+    .addCase(logout, (state) => {
+      state.authorizationStatus = AuthorizationStatus.NoAuth;
+      state.user = null;
     });
 });

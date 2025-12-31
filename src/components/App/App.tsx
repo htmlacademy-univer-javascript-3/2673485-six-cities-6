@@ -7,10 +7,12 @@ import Offer from '../../pages/offer/Offer.tsx';
 import Login from '../../pages/login/Login.tsx';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../store';
+import {AuthorizationStatus} from '../../const.ts';
 
 function App(): JSX.Element {
-  const isUserAuthorized = false;
+  const authorizationStatus = useSelector((state: RootState) => state.authorizationStatus);
   const offers = useSelector((state: RootState) => state.offers);
+  const isUserAuthorized = authorizationStatus === AuthorizationStatus.Auth;
 
   return (
     <BrowserRouter>

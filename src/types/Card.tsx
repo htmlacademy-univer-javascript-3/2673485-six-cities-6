@@ -1,5 +1,5 @@
 export type Card = {
-  id: number;
+  id: string;
   isPremium : boolean;
   imageLink : string;
   price : number;

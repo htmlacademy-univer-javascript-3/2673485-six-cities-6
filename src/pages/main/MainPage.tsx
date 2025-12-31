@@ -8,12 +8,14 @@ import {changeCity} from '../../store/actions.ts';
 import {CITY_COORDINATES} from '../../const.ts';
 import {RootState} from '../../store/index.ts';
 import SortingOptions, {SortType} from '../../components/SortingOptions/SortingOptions.tsx';
+import Spinner from '../../components/Spinner/Spinner.tsx';
 
 export function MainPage(): JSX.Element {
   const dispatch = useDispatch();
   const city = useSelector((state: RootState) => state.city);
   const offers = useSelector((state: RootState) => state.offers);
-  const [activeOfferId, setActiveOfferId] = React.useState<number | null>(null);
+  const isOffersLoading = useSelector((state: RootState) => state.isOffersLoading);
+  const [activeOfferId, setActiveOfferId] = React.useState<string | null>(null);
   const [sortType, setSortType] = React.useState<SortType>('Popular');
 
   React.useEffect(() => {
@@ -82,23 +84,31 @@ export function MainPage(): JSX.Element {
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <CitiesList currentCity={city} onCityChange={(newCity) => dispatch(changeCity(newCity))} />
-        <div className="cities">
-          <div className="cities__places-container container">
-            <section className="cities__places places">
-              <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{filteredOffers.length} places to stay in {city}</b>
-              <SortingOptions value={sortType} onChange={setSortType} />
-              <div className="cities__places-list places__list tabs__content">
-                <OffersList offers={sortedOffers} onActiveOfferChange={setActiveOfferId} />
-              </div>
-            </section>
-            <div className="cities__right-section">
-              {currentCityCoordinates && (
-                <Map city={currentCityCoordinates} pointsCheck={points} selectedPoint={selectedPoint} />
-              )}
+        {isOffersLoading ? (
+          <div className="cities">
+            <div className="cities__places-container container">
+              <Spinner />
             </div>
           </div>
-        </div>
+        ) : (
+          <div className="cities">
+            <div className="cities__places-container container">
+              <section className="cities__places places">
+                <h2 className="visually-hidden">Places</h2>
+                <b className="places__found">{filteredOffers.length} places to stay in {city}</b>
+                <SortingOptions value={sortType} onChange={setSortType} />
+                <div className="cities__places-list places__list tabs__content">
+                  <OffersList offers={sortedOffers} onActiveOfferChange={setActiveOfferId} />
+                </div>
+              </section>
+              <div className="cities__right-section">
+                {currentCityCoordinates && (
+                  <Map city={currentCityCoordinates} pointsCheck={points} selectedPoint={selectedPoint} />
+                )}
+              </div>
+            </div>
+          </div>
+        )}
       </main>
     </div>
   );

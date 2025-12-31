@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { AppRoute } from '../../types/RouteTypes.tsx';
 
 type RenderCardProps = Card & {
-  onHover?: (id: number | null) => void;
+  onHover?: (id: string | null) => void;
   cardClassName?: string;
   imageWrapperClassName?: string;
 };

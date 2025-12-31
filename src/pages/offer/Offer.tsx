@@ -6,9 +6,11 @@ import Map from '../../components/Map/Map.tsx';
 import NearbyOffersList from '../../components/NearbyOffersList/NearbyOffersList.tsx';
 import reviews from '../../mocks/reviews.ts';
 import nearbyOffers from '../../mocks/nearbyOffers.ts';
-import offers from '../../mocks/offers.ts';
 import { City, Point } from '../../types/types.ts';
 import { Card } from '../../types/Card.tsx';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../store';
+import Spinner from '../../components/Spinner/Spinner.tsx';
 
 const AMSTERDAM_CITY: City = {
   lat: 52.3909553943508,
@@ -17,11 +19,14 @@ const AMSTERDAM_CITY: City = {
 };
 
 function Offer(): JSX.Element {
+  const offers = useSelector((state: RootState) => state.offers);
+  const isOffersLoading = useSelector((state: RootState) => state.isOffersLoading);
   const { id } = useParams<{ id: string }>();
 
-  const offerId = Number(id);
-  if (Number.isNaN(offerId)){
-    return PageNotFound();
+  const offerId = id;
+
+  if (isOffersLoading) {
+    return <Spinner />;
   }
 
   const currentOffer: Card | undefined = offers.find((offer) => offer.id === offerId);

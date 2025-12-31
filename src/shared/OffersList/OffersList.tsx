@@ -4,13 +4,13 @@ import RenderCard from '../../components/RenderCard/RenderCard.tsx';
 
 type OffersListProps = {
   offers: Card[];
-  onActiveOfferChange?: (offerId: number | null) => void;
+  onActiveOfferChange?: (offerId: string | null) => void;
 }
 
 function OffersList({ offers, onActiveOfferChange }: OffersListProps): JSX.Element {
-  const [, setActiveOfferId] = React.useState<number | null>(null);
+  const [, setActiveOfferId] = React.useState<string | null>(null);
 
-  const handleHover = (offerId: number | null) => {
+  const handleHover = (offerId: string | null) => {
     setActiveOfferId(offerId);
     if (onActiveOfferChange) {
       onActiveOfferChange(offerId);

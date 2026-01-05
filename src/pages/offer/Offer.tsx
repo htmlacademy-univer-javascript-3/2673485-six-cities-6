@@ -1,36 +1,42 @@
-import React from 'react';
+import {useCallback, useEffect, useMemo, useState} from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { PageNotFound } from '../../components/PageNotFound/PageNotFound.tsx';
-import CommentForm from '../../shared/CommentForm/CommentForm.tsx';
-import ReviewsList from '../../components/ReviewsList/ReviewsList.tsx';
+
+import ErrorScreen from '../../components/ErrorScreen/ErrorScreen.tsx';
 import Map from '../../components/Map/Map.tsx';
 import NearbyOffersList from '../../components/NearbyOffersList/NearbyOffersList.tsx';
-import { Point } from '../../types/types.ts';
-import {useSelector} from 'react-redux';
-import {RootState} from '../../store';
+import { PageNotFound } from '../../components/PageNotFound/PageNotFound.tsx';
+import ReviewsList from '../../components/ReviewsList/ReviewsList.tsx';
 import Spinner from '../../components/Spinner/Spinner.tsx';
-import {useAppDispatch} from '../../hooks/use-app-dispatch.ts';
-import {fetchNearby, fetchOffer, fetchReviews, logout, postReview} from '../../store/actions.ts';
-import {AppRoute} from '../../types/RouteTypes.tsx';
 import {AuthorizationStatus, CITY_COORDINATES} from '../../const.ts';
+import {useAppDispatch} from '../../hooks/useAppDispatch.ts';
+import {useAppSelector} from '../../hooks/useAppSelector.ts';
 import {dropToken} from '../../services/token.ts';
+import CommentForm from '../../shared/CommentForm/CommentForm.tsx';
+import {fetchNearby, fetchOffer, fetchReviews, logout, postReview} from '../../store/actions';
+import {selectAuthStatus, selectCurrentOffer, selectIsOfferLoading, selectOfferError, selectIsReviewSending, selectIsReviewsLoading, selectNearbyOffers, selectReviews, selectUser, selectAllPointsForOffer, selectSelectedOfferPoint} from '../../store/selectors';
+import {AppRoute} from '../../types/RouteTypes.tsx';
 
-function Offer(): JSX.Element {
+import type { ReactElement } from 'react';
+
+function Offer(): ReactElement {
   const dispatch = useAppDispatch();
   const { id } = useParams<{ id: string }>();
 
-  const currentOffer = useSelector((state: RootState) => state.currentOffer);
-  const isOfferLoading = useSelector((state: RootState) => state.isOfferLoading);
-  const nearbyOffers = useSelector((state: RootState) => state.nearbyOffers);
-  const reviews = useSelector((state: RootState) => state.reviews);
-  const isReviewsLoading = useSelector((state: RootState) => state.isReviewsLoading);
-  const isReviewSending = useSelector((state: RootState) => state.isReviewSending);
-  const authorizationStatus = useSelector((state: RootState) => state.authorizationStatus);
-  const user = useSelector((state: RootState) => state.user);
+  const currentOffer = useAppSelector(selectCurrentOffer);
+  const isOfferLoading = useAppSelector(selectIsOfferLoading);
+  const offerError = useAppSelector(selectOfferError);
+  const nearbyOffers = useAppSelector(selectNearbyOffers);
+  const allPoints = useAppSelector(selectAllPointsForOffer);
+  const selectedPoint = useAppSelector(selectSelectedOfferPoint);
+  const reviews = useAppSelector(selectReviews);
+  const isReviewsLoading = useAppSelector(selectIsReviewsLoading);
+  const isReviewSending = useAppSelector(selectIsReviewSending);
+  const authorizationStatus = useAppSelector(selectAuthStatus);
+  const user = useAppSelector(selectUser);
 
-  const [hasRequested, setHasRequested] = React.useState(false);
+  const [hasRequested, setHasRequested] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!id) {
       return;
     }
@@ -40,6 +46,24 @@ function Offer(): JSX.Element {
     setHasRequested(true);
   }, [dispatch, id]);
 
+  const cityCoordinates = useMemo(() => currentOffer
+    ? CITY_COORDINATES[currentOffer.city] ?? CITY_COORDINATES.Amsterdam
+    : CITY_COORDINATES.Amsterdam, [currentOffer]);
+
+  const handleSignOut = useCallback((event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    dropToken();
+    dispatch(logout());
+  }, [dispatch]);
+
+  const handleReviewSubmit = useCallback(({comment, rating}: {comment: string; rating: number}) => {
+    if (!currentOffer) {
+      return;
+    }
+
+    void dispatch(postReview({offerId: currentOffer.id, comment, rating}));
+  }, [currentOffer, dispatch]);
+
   if (!id) {
     return PageNotFound();
   }
@@ -48,38 +72,23 @@ function Offer(): JSX.Element {
     return <Spinner />;
   }
 
+  if (offerError) {
+    return (
+      <ErrorScreen
+        message={offerError}
+        onRetry={() => {
+          if (id) {
+            void dispatch(fetchOffer(id));
+          }
+        }}
+      />
+    );
+  }
+
   if (!currentOffer) {
     return PageNotFound();
   }
 
-  const nearbyPoints: Point[] = nearbyOffers.map((offer) => ({
-    id: offer.id,
-    lat: offer.coordinates.latitude,
-    lng: offer.coordinates.longitude,
-    title: offer.description
-  }));
-
-  const allPoints: Point[] = [
-    {
-      id: currentOffer.id,
-      lat: currentOffer.coordinates.latitude,
-      lng: currentOffer.coordinates.longitude,
-      title: currentOffer.description
-    },
-    ...nearbyPoints
-  ];
-
-  const cityCoordinates = CITY_COORDINATES[currentOffer.city] ?? CITY_COORDINATES.Amsterdam;
-
-  const handleSignOut = (event: React.MouseEvent<HTMLAnchorElement>) => {
-    event.preventDefault();
-    dropToken();
-    dispatch(logout());
-  };
-
-  const handleReviewSubmit = async ({comment, rating}: {comment: string; rating: number}) => {
-    await dispatch(postReview({offerId: currentOffer.id, comment, rating}));
-  };
   return (
     <div className="page">
       <header className="header">
@@ -254,12 +263,7 @@ function Offer(): JSX.Element {
             <Map
               city={cityCoordinates}
               pointsCheck={allPoints}
-              selectedPoint={{
-                id: currentOffer.id,
-                lat: currentOffer.coordinates.latitude,
-                lng: currentOffer.coordinates.longitude,
-                title: currentOffer.description
-              }}
+              selectedPoint={selectedPoint}
             />
           </section>
         </section>

@@ -1,45 +1,46 @@
 import {createAction, createAsyncThunk} from '@reduxjs/toolkit';
-import {Card} from '../types/Card.tsx';
 import {AxiosInstance} from 'axios';
-import {AuthorizationStatus} from '../const.ts';
-import {saveToken} from '../services/token.ts';
-import {Review} from '../types/Review.tsx';
+
+import {AuthorizationStatus} from '../../const.ts';
+import {saveToken} from '../../services/token.ts';
+import {Card} from '../../types/Card.tsx';
+import {Review} from '../../types/Review.tsx';
 
 type ServerOffer = {
-	id: string;
-	title: string;
-	type: string;
-	price: number;
-	rating: number;
-	city: {
-		name: string;
-		location: {
-			latitude: number;
-			longitude: number;
-			zoom: number;
-		};
-	};
-	location: {
-		latitude: number;
-		longitude: number;
-		zoom: number;
-	};
-	isFavorite: boolean;
-	isPremium: boolean;
-	previewImage: string;
+  id: string;
+  title: string;
+  type: string;
+  price: number;
+  rating: number;
+  city: {
+    name: string;
+    location: {
+      latitude: number;
+      longitude: number;
+      zoom: number;
+    };
+  };
+  location: {
+    latitude: number;
+    longitude: number;
+    zoom: number;
+  };
+  isFavorite: boolean;
+  isPremium: boolean;
+  previewImage: string;
 };
 
 type AuthInfo = {
-	token: string;
-	email: string;
-	name: string;
-	avatarUrl: string;
-	isPro: boolean;
+  token: string;
+  email: string;
+  name: string;
+  avatarUrl: string;
+  isPro: boolean;
 };
 
 type LoginPayload = {
-	email: string;
-	password: string;
+  email: string;
+  password: string;
 };
 
 type ServerReview = {

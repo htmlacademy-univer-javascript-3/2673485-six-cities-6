@@ -1,33 +1,38 @@
-import React from 'react';
+import {Fragment, useState} from 'react';
+
+import type { ReactElement } from 'react';
 
 type CommentFormProps = {
-  onSubmit: (payload: {comment: string; rating: number}) => Promise<void> | void;
+  onSubmit: (payload: {comment: string; rating: number}) => void;
   isSending?: boolean;
 };
 
-function CommentForm({onSubmit, isSending = false}: CommentFormProps): JSX.Element {
-  const [rating, setRating] = React.useState<number | null>(null);
-  const [review, setReview] = React.useState('');
+function CommentForm({onSubmit, isSending = false}: CommentFormProps): ReactElement {
+  const [rating, setRating] = useState<number | null>(null);
+  const [review, setReview] = useState('');
 
   const isSubmitDisabled = isSending || !rating || review.trim().length < 50;
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (!rating || review.trim().length < 50) {
-      return;
-    }
-    void Promise.resolve(onSubmit({comment: review.trim(), rating})).then(() => {
-      setRating(null);
-      setReview('');
-    });
-  };
-
   return (
-    <form className="reviews__form form" action="#" method="post" onSubmit={handleSubmit}>
+    <form
+      className="reviews__form form"
+      action="#"
+      method="post"
+      onSubmit={(event) => {
+        event.preventDefault();
+        if (!rating || review.trim().length < 50) {
+          return;
+        }
+
+        onSubmit({comment: review.trim(), rating});
+        setRating(null);
+        setReview('');
+      }}
+    >
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
         {[5,4,3,2,1].map((value) => (
-          <React.Fragment key={value}>
+          <Fragment key={value}>
             <input
               className="form__rating-input visually-hidden"
               name="rating"
@@ -43,7 +48,7 @@ function CommentForm({onSubmit, isSending = false}: CommentFormProps): JSX.Eleme
                 <use xlinkHref="#icon-star"></use>
               </svg>
             </label>
-          </React.Fragment>
+          </Fragment>
         ))}
       </div>
       <textarea
@@ -67,4 +72,3 @@ function CommentForm({onSubmit, isSending = false}: CommentFormProps): JSX.Eleme
 }
 
 export default CommentForm;
-

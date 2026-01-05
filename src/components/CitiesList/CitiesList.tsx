@@ -1,3 +1,5 @@
+import {type ReactElement} from 'react';
+
 import {CITIES} from '../../const.ts';
 
 type CitiesListProps = {
@@ -5,7 +7,7 @@ type CitiesListProps = {
   onCityChange: (city: string) => void;
 };
 
-function CitiesList({currentCity, onCityChange}: CitiesListProps): JSX.Element {
+function CitiesList({currentCity, onCityChange}: CitiesListProps): ReactElement {
   return (
     <div className="tabs">
       <section className="locations container">

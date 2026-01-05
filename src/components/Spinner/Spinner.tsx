@@ -1,4 +1,6 @@
-function Spinner(): JSX.Element {
+import type { ReactElement } from 'react';
+
+function Spinner(): ReactElement {
   return (
     <div className="spinner" style={{display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', padding: '24px'}}>
       <div

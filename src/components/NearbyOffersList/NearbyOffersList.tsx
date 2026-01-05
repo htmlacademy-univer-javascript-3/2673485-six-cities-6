@@ -1,11 +1,15 @@
+import {memo} from 'react';
+
 import { Card } from '../../types/Card.tsx';
 import RenderCard from '../RenderCard/RenderCard.tsx';
+
+import type { ReactElement } from 'react';
 
 type NearbyOffersListProps = {
   offers: Card[];
 };
 
-function NearbyOffersList({ offers }: NearbyOffersListProps): JSX.Element {
+function NearbyOffersList({ offers }: NearbyOffersListProps): ReactElement {
   return (
     <>
       {offers.map((card) => (
@@ -20,6 +24,6 @@ function NearbyOffersList({ offers }: NearbyOffersListProps): JSX.Element {
   );
 }
 
-export default NearbyOffersList;
+const MemoNearbyOffersList = memo(NearbyOffersList);
 
-
+export default MemoNearbyOffersList;

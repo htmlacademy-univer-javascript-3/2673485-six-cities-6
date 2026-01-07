@@ -22,7 +22,7 @@ function App(): ReactElement {
       <Routes>
         <Route path={AppRoute.Main} element={<MainPage />}/>
         <Route
-          path={AppRoute.Favourites}
+          path={AppRoute.Favorites}
           element={isUserAuthorized ? <Favorites offers={offers} /> : <Navigate to={AppRoute.Login} replace />}
         />
         <Route path={AppRoute.Offer} element={<Offer />} />

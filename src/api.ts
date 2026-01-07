@@ -14,12 +14,9 @@ export function createAPI(): AxiosInstance {
   api.interceptors.request.use((config) => {
     const token = getToken();
     if (token) {
-      if (!config.headers) {
-        config.headers = {} as AxiosRequestHeaders;
-      }
-
-      const headers = config.headers;
+      const headers: AxiosRequestHeaders = config.headers ?? {};
       headers['X-Token'] = token;
+      config.headers = headers;
     }
     return config;
   });

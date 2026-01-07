@@ -2,7 +2,7 @@ import {Icon} from 'leaflet';
 
 import {City} from './types/types.ts';
 
-export const CITIES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'] as const;
+export const CITIES: readonly string[] = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
 
 export enum AuthorizationStatus {
   Auth = 'AUTH',

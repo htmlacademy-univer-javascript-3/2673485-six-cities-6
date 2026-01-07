@@ -18,13 +18,13 @@ type FavoritesProps = {
 
 export function Favorites({ offers }: FavoritesProps): ReactElement {
   const favoriteOffers = offers.filter((offer) => offer.inBookMarks);
-  const offersByCity = favoriteOffers.reduce((acc, offer) => {
+  const offersByCity = favoriteOffers.reduce<Record<string, Card[]>>((acc, offer) => {
     if (!acc[offer.city]) {
       acc[offer.city] = [];
     }
     acc[offer.city].push(offer);
     return acc;
-  }, {} as Record<string, Card[]>);
+  }, {});
 
   const user = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
@@ -47,7 +47,7 @@ export function Favorites({ offers }: FavoritesProps): ReactElement {
             <nav className="header__nav">
               <ul className="header__nav-list">
                 <li className="header__nav-item user">
-                  <Link className="header__nav-link header__nav-link--profile" to={AppRoute.Favourites}>
+                  <Link className="header__nav-link header__nav-link--profile" to={AppRoute.Favorites}>
                     <div className="header__avatar-wrapper user__avatar-wrapper">
                     </div>
                     <span className="header__user-name user__name">{user?.email ?? 'User'}</span>
@@ -68,13 +68,13 @@ export function Favorites({ offers }: FavoritesProps): ReactElement {
       <main className="page__main page__main--favorites">
         <div className="page__favorites-container container">
           <section className="favorites">
-            <h1 className="favorites__title">Saved listing</h1>
+            <h1 className="favorites__title">Saved favorites</h1>
             <ul className="favorites__list">
               {Object.entries(offersByCity).map(([city, cityOffers]) => (
                 <li key={city} className="favorites__locations-items">
                   <div className="favorites__locations locations locations--current">
                     <div className="locations__item">
-                      <Link className="locations__item-link" to={AppRoute.Favourites}>
+                      <Link className="locations__item-link" to={AppRoute.Favorites}>
                         <span>{city}</span>
                       </Link>
                     </div>

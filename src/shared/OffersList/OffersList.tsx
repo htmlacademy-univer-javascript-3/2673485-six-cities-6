@@ -1,30 +1,31 @@
-import React from 'react';
-import { Card } from '../../types/Card.tsx';
+import {Fragment, memo, useCallback} from 'react';
+
 import RenderCard from '../../components/RenderCard/RenderCard.tsx';
+import { Card } from '../../types/Card.tsx';
+
+import type { ReactElement } from 'react';
 
 type OffersListProps = {
   offers: Card[];
   onActiveOfferChange?: (offerId: string | null) => void;
 }
 
-function OffersList({ offers, onActiveOfferChange }: OffersListProps): JSX.Element {
-  const [, setActiveOfferId] = React.useState<string | null>(null);
-
-  const handleHover = (offerId: string | null) => {
-    setActiveOfferId(offerId);
+function OffersList({ offers, onActiveOfferChange }: OffersListProps): ReactElement {
+  const handleHover = useCallback((offerId: string | null) => {
     if (onActiveOfferChange) {
       onActiveOfferChange(offerId);
     }
-  };
+  }, [onActiveOfferChange]);
 
   return (
-    <React.Fragment>
+    <Fragment>
       {offers.map((card) => (
         <RenderCard key={card.id} {...card} onHover={handleHover} />
       ))}
-    </React.Fragment>
+    </Fragment>
   );
 }
 
-export default OffersList;
+const MemoOffersList = memo(OffersList);
 
+export default MemoOffersList;

@@ -1,19 +1,22 @@
-import React from 'react';
-import {useSelector} from 'react-redux';
-import {login} from '../../store/actions.ts';
-import {useNavigate, Navigate, Link} from 'react-router-dom';
-import {AppRoute} from '../../types/RouteTypes.tsx';
-import {RootState} from '../../store';
-import {AuthorizationStatus} from '../../const.ts';
-import {useAppDispatch} from '../../hooks/use-app-dispatch.ts';
+import { useState } from 'react';
+import { useNavigate, Navigate, Link } from 'react-router-dom';
 
-export function Login(): JSX.Element {
+import { AuthorizationStatus } from '../../const.ts';
+import { useAppDispatch } from '../../hooks/useAppDispatch.ts';
+import { useAppSelector } from '../../hooks/useAppSelector.ts';
+import { login } from '../../store/actions';
+import { selectAuthStatus } from '../../store/selectors';
+import { AppRoute } from '../../types/RouteTypes.tsx';
+
+import type { ReactElement } from 'react';
+
+export function Login(): ReactElement {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const authorizationStatus = useSelector((state: RootState) => state.authorizationStatus);
+  const authorizationStatus = useAppSelector(selectAuthStatus);
 
-  const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   if (authorizationStatus === AuthorizationStatus.Auth) {
     return <Navigate to={AppRoute.Main} replace />;
@@ -21,7 +24,7 @@ export function Login(): JSX.Element {
 
   const handleSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    dispatch(login({email, password})).unwrap()
+    dispatch(login({ email, password })).unwrap()
       .then(() => navigate(AppRoute.Main));
   };
 
@@ -85,4 +88,3 @@ export function Login(): JSX.Element {
 }
 
 export default Login;
-

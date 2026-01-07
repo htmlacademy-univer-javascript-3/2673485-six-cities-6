@@ -2,7 +2,7 @@ import { Card } from '../types/Card.tsx';
 
 export const nearbyOffers: Card[] = [
   {
-    id: 2,
+    id: '2',
     isPremium: false,
     imageLink: 'img/room.jpg',
     price: 80,
@@ -17,7 +17,7 @@ export const nearbyOffers: Card[] = [
     }
   },
   {
-    id: 3,
+    id: '3',
     isPremium: false,
     imageLink: 'img/apartment-02.jpg',
     price: 132,
@@ -32,7 +32,7 @@ export const nearbyOffers: Card[] = [
     }
   },
   {
-    id: 4,
+    id: '4',
     isPremium: true,
     imageLink: 'img/apartment-03.jpg',
     price: 180,

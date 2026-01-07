@@ -1,17 +1,20 @@
-import { MainPage } from '../../pages/main/MainPage';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+
+import {AuthorizationStatus} from '../../const.ts';
+import {useAppSelector} from '../../hooks/useAppSelector.ts';
+import Favorites from '../../pages/favorites/Favorites.tsx';
+import Login from '../../pages/login/Login.tsx';
+import { MainPage } from '../../pages/main/MainPage';
+import Offer from '../../pages/offer/Offer.tsx';
+import {selectAllOffers, selectAuthStatus} from '../../store/selectors';
 import { AppRoute } from '../../types/RouteTypes.tsx';
 import { PageNotFound } from '../PageNotFound/PageNotFound.tsx';
-import Favorites from '../../pages/favorites/Favorites.tsx';
-import Offer from '../../pages/offer/Offer.tsx';
-import Login from '../../pages/login/Login.tsx';
-import {useSelector} from 'react-redux';
-import {RootState} from '../../store';
-import {AuthorizationStatus} from '../../const.ts';
 
-function App(): JSX.Element {
-  const authorizationStatus = useSelector((state: RootState) => state.authorizationStatus);
-  const offers = useSelector((state: RootState) => state.offers);
+import type { ReactElement } from 'react';
+
+function App(): ReactElement {
+  const authorizationStatus = useAppSelector(selectAuthStatus);
+  const offers = useAppSelector(selectAllOffers);
   const isUserAuthorized = authorizationStatus === AuthorizationStatus.Auth;
 
   return (

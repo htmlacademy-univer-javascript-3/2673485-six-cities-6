@@ -1,17 +1,38 @@
-import React from 'react';
+import {Fragment, useState} from 'react';
 
-function CommentForm(): JSX.Element {
-  const [rating, setRating] = React.useState<number | null>(null);
-  const [review, setReview] = React.useState('');
+import type { ReactElement } from 'react';
 
-  const isSubmitDisabled = !rating || review.trim().length < 50;
+type CommentFormProps = {
+  onSubmit: (payload: {comment: string; rating: number}) => void;
+  isSending?: boolean;
+};
+
+function CommentForm({onSubmit, isSending = false}: CommentFormProps): ReactElement {
+  const [rating, setRating] = useState<number | null>(null);
+  const [review, setReview] = useState('');
+
+  const isSubmitDisabled = isSending || !rating || review.trim().length < 50;
 
   return (
-    <form className="reviews__form form" action="#" method="post">
+    <form
+      className="reviews__form form"
+      action="#"
+      method="post"
+      onSubmit={(event) => {
+        event.preventDefault();
+        if (!rating || review.trim().length < 50) {
+          return;
+        }
+
+        onSubmit({comment: review.trim(), rating});
+        setRating(null);
+        setReview('');
+      }}
+    >
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
         {[5,4,3,2,1].map((value) => (
-          <React.Fragment key={value}>
+          <Fragment key={value}>
             <input
               className="form__rating-input visually-hidden"
               name="rating"
@@ -20,13 +41,14 @@ function CommentForm(): JSX.Element {
               type="radio"
               checked={rating === value}
               onChange={() => setRating(value)}
+              disabled={isSending}
             />
             <label htmlFor={`${value}-stars`} className="reviews__rating-label form__rating-label" title="rating">
               <svg className="form__star-image" width="37" height="33">
                 <use xlinkHref="#icon-star"></use>
               </svg>
             </label>
-          </React.Fragment>
+          </Fragment>
         ))}
       </div>
       <textarea
@@ -36,6 +58,7 @@ function CommentForm(): JSX.Element {
         placeholder="Tell how was your stay, what you like and what can be improved"
         value={review}
         onChange={(e) => setReview(e.target.value)}
+        disabled={isSending}
       >
       </textarea>
       <div className="reviews__button-wrapper">
@@ -49,4 +72,3 @@ function CommentForm(): JSX.Element {
 }
 
 export default CommentForm;
-

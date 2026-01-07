@@ -1,6 +1,10 @@
-import { Card } from '../../types/Card.tsx';
+import {memo} from 'react';
 import { Link } from 'react-router-dom';
+
+import { Card } from '../../types/Card.tsx';
 import { AppRoute } from '../../types/RouteTypes.tsx';
+
+import type { ReactElement } from 'react';
 
 type RenderCardProps = Card & {
   onHover?: (id: string | null) => void;
@@ -8,7 +12,7 @@ type RenderCardProps = Card & {
   imageWrapperClassName?: string;
 };
 
-export function RenderCard({id, isPremium, imageLink, price, inBookMarks, rating, description, accommodationType, onHover, cardClassName = 'cities__card place-card', imageWrapperClassName = 'cities__image-wrapper place-card__image-wrapper'} : RenderCardProps): JSX.Element {
+function RenderCard({id, isPremium, imageLink, price, inBookMarks, rating, description, accommodationType, onHover, cardClassName = 'cities__card place-card', imageWrapperClassName = 'cities__image-wrapper place-card__image-wrapper'} : RenderCardProps): ReactElement {
   return (
     <article className={cardClassName} onMouseEnter={() => onHover && onHover(id)} onMouseLeave={() => onHover && onHover(null)}>
       {
@@ -28,10 +32,9 @@ export function RenderCard({id, isPremium, imageLink, price, inBookMarks, rating
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <
-            button className={`place-card__bookmark-button button ${
-              inBookMarks && 'place-card__bookmark-button--active'} button`}
-            type="button"
+          <button className={`place-card__bookmark-button button ${
+            inBookMarks && 'place-card__bookmark-button--active'} button`}
+          type="button"
           >
             <svg className="place-card__bookmark-icon" width={18} height={19}>
               <use xlinkHref="#icon-bookmark"></use>
@@ -54,4 +57,6 @@ export function RenderCard({id, isPremium, imageLink, price, inBookMarks, rating
   );
 }
 
-export default RenderCard;
+const MemoRenderCard = memo(RenderCard);
+
+export default MemoRenderCard;

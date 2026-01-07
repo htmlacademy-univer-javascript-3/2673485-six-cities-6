@@ -1,4 +1,5 @@
 import axios, {AxiosInstance, AxiosRequestHeaders} from 'axios';
+
 import {getToken} from './services/token.ts';
 
 const BASE_URL = 'https://16.design.htmlacademy.pro/six-cities';

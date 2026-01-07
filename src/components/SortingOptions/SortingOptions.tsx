@@ -1,3 +1,5 @@
+import type { ReactElement } from 'react';
+
 export type SortType = 'Popular' | 'Price: low to high' | 'Price: high to low' | 'Top rated first';
 
 type SortingOptionsProps = {
@@ -12,7 +14,7 @@ const SORT_ITEMS: SortType[] = [
   'Top rated first'
 ];
 
-function SortingOptions({value, onChange}: SortingOptionsProps): JSX.Element {
+function SortingOptions({value, onChange}: SortingOptionsProps): ReactElement {
   return (
     <form className="places__sorting" action="#" method="get">
       <span className="places__sorting-caption">Sort by</span>

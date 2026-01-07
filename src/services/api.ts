@@ -1,6 +1,6 @@
-import axios, {AxiosInstance, AxiosRequestHeaders} from 'axios';
+import axios, { AxiosInstance, AxiosRequestHeaders } from 'axios';
 
-import {getToken} from './services/token.ts';
+import { getToken } from './token.ts';
 
 const BASE_URL = 'https://16.design.htmlacademy.pro/six-cities';
 const REQUEST_TIMEOUT = 5000;

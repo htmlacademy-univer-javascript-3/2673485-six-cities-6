@@ -1,4 +1,4 @@
-import { Reviews } from '../types/Review.tsx';
+import { Reviews } from '../types/review.tsx';
 
 export const reviews: Reviews = [
   {

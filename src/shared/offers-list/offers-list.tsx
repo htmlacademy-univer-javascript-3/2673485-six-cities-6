@@ -1,7 +1,7 @@
-import {Fragment, memo, useCallback} from 'react';
+import { Fragment, memo, useCallback} from 'react';
 
-import RenderCard from '../../components/RenderCard/RenderCard.tsx';
-import { Card } from '../../types/Card.tsx';
+import RenderCard from '../../components/render-card/render-card.tsx';
+import { Card } from '../../types/card.tsx';
 
 import type { ReactElement } from 'react';
 

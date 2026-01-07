@@ -4,9 +4,9 @@ import type { ReactElement } from 'react';
 import { Marker, layerGroup } from 'leaflet';
 
 import { currentCustomIcon, defaultCustomIcon } from '../../const.ts';
-import useMap from '../../hooks/useMap';
+import useMap from '../../hooks/use-map';
 import 'leaflet/dist/leaflet.css';
-import { MapProps } from '../../types/MapEntities.ts';
+import { MapProps } from '../../types/map-entities.ts';
 
 function Map(props: MapProps): ReactElement {
   const {city, pointsCheck, selectedPoint, mapClassName = 'cities__map map'} = props;

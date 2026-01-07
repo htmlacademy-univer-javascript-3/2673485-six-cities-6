@@ -1,6 +1,6 @@
-import {memo} from 'react';
+import { memo } from 'react';
 
-import { Review as ReviewType } from '../../types/Review.tsx';
+import { Review as ReviewType } from '../../types/review.tsx';
 
 import type { ReactElement } from 'react';
 

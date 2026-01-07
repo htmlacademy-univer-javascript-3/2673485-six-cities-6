@@ -1,10 +1,10 @@
 import { combineReducers, createSlice } from '@reduxjs/toolkit';
 
 import { AuthorizationStatus } from '../../const.ts';
-import { Card } from '../../types/Card.tsx';
-import { Review } from '../../types/Review';
+import { Card } from '../../types/card.tsx';
+import { Review } from '../../types/review';
 
-import { changeCity, checkAuth, fetchNearby, fetchOffer, fetchOffers, fetchReviews, login, logout, postReview, setAuthStatus, setUser } from '../actions';
+import * as actions from '../actions';
 
 export type OffersSliceState = {
   city: string;
@@ -64,19 +64,19 @@ const offersSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(changeCity, (state, action) => {
+      .addCase(actions.changeCity, (state, action) => {
         state.city = action.payload;
       })
-      .addCase(fetchOffers.pending, (state) => {
+      .addCase(actions.fetchOffers.pending, (state) => {
         state.isOffersLoading = true;
         state.offersError = null;
       })
-      .addCase(fetchOffers.fulfilled, (state, action) => {
+      .addCase(actions.fetchOffers.fulfilled, (state, action) => {
         state.offers = action.payload;
         state.isOffersLoading = false;
         state.offersError = null;
       })
-      .addCase(fetchOffers.rejected, (state, action) => {
+      .addCase(actions.fetchOffers.rejected, (state, action) => {
         state.isOffersLoading = false;
         state.offersError = action.error.message ?? 'Failed to load offers';
       });
@@ -89,29 +89,29 @@ const userSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(setAuthStatus, (state, action) => {
+      .addCase(actions.setAuthStatus, (state, action) => {
         state.authorizationStatus = action.payload;
       })
-      .addCase(setUser, (state, action) => {
+      .addCase(actions.setUser, (state, action) => {
         state.user = action.payload;
       })
-      .addCase(checkAuth.fulfilled, (state, action) => {
+      .addCase(actions.checkAuth.fulfilled, (state, action) => {
         state.authorizationStatus = AuthorizationStatus.Auth;
         state.user = action.payload;
       })
-      .addCase(checkAuth.rejected, (state) => {
+      .addCase(actions.checkAuth.rejected, (state) => {
         state.authorizationStatus = AuthorizationStatus.NoAuth;
         state.user = null;
       })
-      .addCase(login.fulfilled, (state, action) => {
+      .addCase(actions.login.fulfilled, (state, action) => {
         state.authorizationStatus = AuthorizationStatus.Auth;
         state.user = action.payload;
       })
-      .addCase(login.rejected, (state) => {
+      .addCase(actions.login.rejected, (state) => {
         state.authorizationStatus = AuthorizationStatus.NoAuth;
         state.user = null;
       })
-      .addCase(logout, (state) => {
+      .addCase(actions.logout, (state) => {
         state.authorizationStatus = AuthorizationStatus.NoAuth;
         state.user = null;
       });
@@ -124,7 +124,7 @@ const offerDetailsSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchOffer.pending, (state) => {
+      .addCase(actions.fetchOffer.pending, (state) => {
         state.isOfferLoading = true;
         state.offerError = null;
         state.currentOffer = null;
@@ -132,45 +132,45 @@ const offerDetailsSlice = createSlice({
         state.reviews = [];
         state.isReviewsLoading = true;
       })
-      .addCase(fetchOffer.fulfilled, (state, action) => {
+      .addCase(actions.fetchOffer.fulfilled, (state, action) => {
         state.currentOffer = action.payload;
         state.isOfferLoading = false;
         state.offerError = null;
       })
-      .addCase(fetchOffer.rejected, (state, action) => {
+      .addCase(actions.fetchOffer.rejected, (state, action) => {
         state.currentOffer = null;
         state.isOfferLoading = false;
         state.offerError = action.error.message ?? 'Failed to load offer';
       })
-      .addCase(fetchNearby.pending, (state) => {
+      .addCase(actions.fetchNearby.pending, (state) => {
         state.nearbyOffers = [];
       })
-      .addCase(fetchNearby.fulfilled, (state, action) => {
+      .addCase(actions.fetchNearby.fulfilled, (state, action) => {
         state.nearbyOffers = action.payload;
       })
-      .addCase(fetchNearby.rejected, (state) => {
+      .addCase(actions.fetchNearby.rejected, (state) => {
         state.nearbyOffers = [];
       })
-      .addCase(fetchReviews.pending, (state) => {
+      .addCase(actions.fetchReviews.pending, (state) => {
         state.isReviewsLoading = true;
         state.reviews = [];
       })
-      .addCase(fetchReviews.fulfilled, (state, action) => {
+      .addCase(actions.fetchReviews.fulfilled, (state, action) => {
         state.reviews = sortReviewsByDateDesc(action.payload);
         state.isReviewsLoading = false;
       })
-      .addCase(fetchReviews.rejected, (state) => {
+      .addCase(actions.fetchReviews.rejected, (state) => {
         state.reviews = [];
         state.isReviewsLoading = false;
       })
-      .addCase(postReview.pending, (state) => {
+      .addCase(actions.postReview.pending, (state) => {
         state.isReviewSending = true;
       })
-      .addCase(postReview.fulfilled, (state, action) => {
+      .addCase(actions.postReview.fulfilled, (state, action) => {
         state.reviews = sortReviewsByDateDesc([action.payload, ...state.reviews]).slice(0, 10);
         state.isReviewSending = false;
       })
-      .addCase(postReview.rejected, (state) => {
+      .addCase(actions.postReview.rejected, (state) => {
         state.isReviewSending = false;
       });
   }

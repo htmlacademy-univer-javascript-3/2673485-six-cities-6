@@ -1,14 +1,14 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
-import {AuthorizationStatus} from '../../const.ts';
-import {useAppSelector} from '../../hooks/useAppSelector.ts';
-import Favorites from '../../pages/favorites/Favorites.tsx';
-import Login from '../../pages/login/Login.tsx';
-import { MainPage } from '../../pages/main/MainPage';
-import Offer from '../../pages/offer/Offer.tsx';
-import {selectAllOffers, selectAuthStatus} from '../../store/selectors';
-import { AppRoute } from '../../types/RouteTypes.tsx';
-import { PageNotFound } from '../PageNotFound/PageNotFound.tsx';
+import { AuthorizationStatus } from '../../const.ts';
+import { useAppSelector } from '../../hooks/use-app-selector.ts';
+import Favorites from '../../pages/favorites/favorites.tsx';
+import Login from '../../pages/login/login.tsx';
+import { MainPage } from '../../pages/main/main-page';
+import Offer from '../../pages/offer/offer.tsx';
+import { selectAllOffers, selectAuthStatus } from '../../store/selectors';
+import { AppRoute } from '../../types/route-types.tsx';
+import { PageNotFound } from '../page-not-found/page-not-found.tsx';
 
 import type { ReactElement } from 'react';
 

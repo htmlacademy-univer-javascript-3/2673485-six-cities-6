@@ -1,16 +1,16 @@
-import {useCallback} from 'react';
-import {Link} from 'react-router-dom';
+import { useCallback } from 'react';
+import { Link } from 'react-router-dom';
 
-import OffersList from '../../shared/OffersList/OffersList.tsx';
-import {useAppDispatch} from '../../hooks/useAppDispatch.ts';
-import {useAppSelector} from '../../hooks/useAppSelector.ts';
-import {dropToken} from '../../services/token.ts';
-import {logout} from '../../store/actions';
-import {selectUser} from '../../store/selectors';
-import {AppRoute} from '../../types/RouteTypes.tsx';
-import { Card } from '../../types/Card.tsx';
+import OffersList from '../../shared/offers-list/offers-list.tsx';
+import { useAppDispatch } from '../../hooks/use-app-dispatch.ts';
+import { useAppSelector } from '../../hooks/use-app-selector.ts';
+import { dropToken } from '../../services/token.ts';
+import { logout } from '../../store/actions';
+import { selectUser } from '../../store/selectors';
+import { AppRoute } from '../../types/route-types.tsx';
+import { Card } from '../../types/card.tsx';
 
-import type {ReactElement} from 'react';
+import type { ReactElement } from 'react';
 
 type FavoritesProps = {
   offers: Card[];

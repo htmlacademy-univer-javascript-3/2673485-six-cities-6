@@ -1,6 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit';
-import { SortType } from '../../components/SortingOptions/SortingOptions.tsx';
-import { Card } from '../../types/Card.tsx';
+import { SortType } from '../../components/sorting-options/sorting-options.tsx';
+import { Card } from '../../types/card.tsx';
 import { Point } from '../../types/types.ts';
 import { RootState } from '../index.ts';
 

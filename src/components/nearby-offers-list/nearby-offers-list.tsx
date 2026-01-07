@@ -1,7 +1,7 @@
-import {memo} from 'react';
+import { memo } from 'react';
 
-import { Card } from '../../types/Card.tsx';
-import RenderCard from '../RenderCard/RenderCard.tsx';
+import { Card } from '../../types/card.tsx';
+import RenderCard from '../render-card/render-card.tsx';
 
 import type { ReactElement } from 'react';
 

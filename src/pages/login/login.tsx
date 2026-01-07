@@ -2,11 +2,11 @@ import { useState } from 'react';
 import { useNavigate, Navigate, Link } from 'react-router-dom';
 
 import { AuthorizationStatus } from '../../const.ts';
-import { useAppDispatch } from '../../hooks/useAppDispatch.ts';
-import { useAppSelector } from '../../hooks/useAppSelector.ts';
+import { useAppDispatch } from '../../hooks/use-app-dispatch.ts';
+import { useAppSelector } from '../../hooks/use-app-selector.ts';
 import { login } from '../../store/actions';
 import { selectAuthStatus } from '../../store/selectors';
-import { AppRoute } from '../../types/RouteTypes.tsx';
+import { AppRoute } from '../../types/route-types.tsx';
 
 import type { ReactElement } from 'react';
 

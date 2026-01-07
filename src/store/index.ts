@@ -1,9 +1,9 @@
-import {configureStore} from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
 
-import {createAPI} from '../api.ts';
+import { createAPI } from '../services/api.ts';
 
-import {checkAuth, fetchOffers} from './actions';
-import {reducer} from './reducers';
+import { checkAuth, fetchOffers } from './actions';
+import { reducer } from './reducers';
 
 const api = createAPI();
 

@@ -1,8 +1,8 @@
-import {memo} from 'react';
+import { memo } from 'react';
 import { Link } from 'react-router-dom';
 
-import { Card } from '../../types/Card.tsx';
-import { AppRoute } from '../../types/RouteTypes.tsx';
+import { Card } from '../../types/card.tsx';
+import { AppRoute } from '../../types/route-types.tsx';
 
 import type { ReactElement } from 'react';
 

@@ -1,6 +1,6 @@
-import {Link} from 'react-router-dom';
+import { Link} from 'react-router-dom';
 
-import {AppRoute} from '../../types/RouteTypes.tsx';
+import { AppRoute } from '../../types/route-types.tsx';
 
 type ErrorScreenProps = {
   message?: string;

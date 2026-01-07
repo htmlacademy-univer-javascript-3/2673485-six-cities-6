@@ -1,20 +1,20 @@
-import {useCallback, useEffect, useMemo, useState} from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 
-import ErrorScreen from '../../components/ErrorScreen/ErrorScreen.tsx';
-import Map from '../../components/Map/Map.tsx';
-import NearbyOffersList from '../../components/NearbyOffersList/NearbyOffersList.tsx';
-import { PageNotFound } from '../../components/PageNotFound/PageNotFound.tsx';
-import ReviewsList from '../../components/ReviewsList/ReviewsList.tsx';
-import Spinner from '../../components/Spinner/Spinner.tsx';
-import {AuthorizationStatus, CITY_COORDINATES} from '../../const.ts';
-import {useAppDispatch} from '../../hooks/useAppDispatch.ts';
-import {useAppSelector} from '../../hooks/useAppSelector.ts';
-import {dropToken} from '../../services/token.ts';
-import CommentForm from '../../shared/CommentForm/CommentForm.tsx';
-import {fetchNearby, fetchOffer, fetchReviews, logout, postReview} from '../../store/actions';
-import {selectAuthStatus, selectCurrentOffer, selectIsOfferLoading, selectOfferError, selectIsReviewSending, selectIsReviewsLoading, selectNearbyOffers, selectReviews, selectUser, selectAllPointsForOffer, selectSelectedOfferPoint} from '../../store/selectors';
-import {AppRoute} from '../../types/RouteTypes.tsx';
+import ErrorScreen from '../../components/error-screen/error-screen.tsx';
+import Map from '../../components/map/map.tsx';
+import NearbyOffersList from '../../components/nearby-offers-list/nearby-offers-list.tsx';
+import { PageNotFound } from '../../components/page-not-found/page-not-found.tsx';
+import ReviewsList from '../../components/reviews-list/reviews-list.tsx';
+import Spinner from '../../components/spinner/spinner.tsx';
+import { AuthorizationStatus, CITY_COORDINATES } from '../../const.ts';
+import { useAppDispatch } from '../../hooks/use-app-dispatch.ts';
+import { useAppSelector } from '../../hooks/use-app-selector.ts';
+import { dropToken } from '../../services/token.ts';
+import CommentForm from '../../shared/comment-form/comment-form.tsx';
+import { fetchNearby, fetchOffer, fetchReviews, logout, postReview } from '../../store/actions';
+import * as selectors from '../../store/selectors';
+import { AppRoute } from '../../types/route-types.tsx';
 
 import type { ReactElement } from 'react';
 
@@ -22,17 +22,17 @@ function Offer(): ReactElement {
   const dispatch = useAppDispatch();
   const { id } = useParams<{ id: string }>();
 
-  const currentOffer = useAppSelector(selectCurrentOffer);
-  const isOfferLoading = useAppSelector(selectIsOfferLoading);
-  const offerError = useAppSelector(selectOfferError);
-  const nearbyOffers = useAppSelector(selectNearbyOffers);
-  const allPoints = useAppSelector(selectAllPointsForOffer);
-  const selectedPoint = useAppSelector(selectSelectedOfferPoint);
-  const reviews = useAppSelector(selectReviews);
-  const isReviewsLoading = useAppSelector(selectIsReviewsLoading);
-  const isReviewSending = useAppSelector(selectIsReviewSending);
-  const authorizationStatus = useAppSelector(selectAuthStatus);
-  const user = useAppSelector(selectUser);
+  const currentOffer = useAppSelector(selectors.selectCurrentOffer);
+  const isOfferLoading = useAppSelector(selectors.selectIsOfferLoading);
+  const offerError = useAppSelector(selectors.selectOfferError);
+  const nearbyOffers = useAppSelector(selectors.selectNearbyOffers);
+  const allPoints = useAppSelector(selectors.selectAllPointsForOffer);
+  const selectedPoint = useAppSelector(selectors.selectSelectedOfferPoint);
+  const reviews = useAppSelector(selectors.selectReviews);
+  const isReviewsLoading = useAppSelector(selectors.selectIsReviewsLoading);
+  const isReviewSending = useAppSelector(selectors.selectIsReviewSending);
+  const authorizationStatus = useAppSelector(selectors.selectAuthStatus);
+  const user = useAppSelector(selectors.selectUser);
 
   const [hasRequested, setHasRequested] = useState(false);
 

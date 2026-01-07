@@ -1,10 +1,10 @@
-import {createAction, createAsyncThunk} from '@reduxjs/toolkit';
-import {AxiosInstance} from 'axios';
+import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
+import { AxiosInstance } from 'axios';
 
-import {AuthorizationStatus} from '../../const.ts';
-import {saveToken} from '../../services/token.ts';
-import {Card} from '../../types/Card.tsx';
-import {Review} from '../../types/Review.tsx';
+import { AuthorizationStatus } from '../../const.ts';
+import { saveToken } from '../../services/token.ts';
+import { Card } from '../../types/card.tsx';
+import { Review } from '../../types/review.tsx';
 
 type ServerOffer = {
   id: string;

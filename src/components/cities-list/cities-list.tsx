@@ -1,6 +1,6 @@
-import {type ReactElement} from 'react';
+import type { ReactElement } from 'react';
 
-import {CITIES} from '../../const.ts';
+import { CITIES } from '../../const.ts';
 
 type CitiesListProps = {
   currentCity: string;

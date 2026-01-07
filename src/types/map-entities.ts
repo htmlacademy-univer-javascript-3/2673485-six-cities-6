@@ -1,4 +1,4 @@
-import {City, Point, Points} from './types.ts';
+import { City, Point, Points} from './types.ts';
 
 export type MapProps = {
   city: City;

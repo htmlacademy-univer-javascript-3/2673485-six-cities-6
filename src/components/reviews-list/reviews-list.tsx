@@ -1,7 +1,7 @@
-import {Fragment, memo} from 'react';
+import { Fragment, memo} from 'react';
 
-import { Reviews } from '../../types/Review.tsx';
-import Review from '../Review/Review.tsx';
+import { Reviews } from '../../types/review.tsx';
+import Review from '../review/review.tsx';
 
 import type { ReactElement } from 'react';
 

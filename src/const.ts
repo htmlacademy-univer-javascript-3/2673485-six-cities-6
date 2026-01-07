@@ -1,6 +1,6 @@
-import {Icon} from 'leaflet';
+import { Icon } from 'leaflet';
 
-import {City} from './types/types.ts';
+import { City } from './types/types.ts';
 
 export const CITIES: readonly string[] = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
 

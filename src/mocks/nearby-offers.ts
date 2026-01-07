@@ -1,4 +1,4 @@
-import { Card } from '../types/Card.tsx';
+import { Card } from '../types/card.tsx';
 
 export const nearbyOffers: Card[] = [
   {

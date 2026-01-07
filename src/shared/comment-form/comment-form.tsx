@@ -1,4 +1,4 @@
-import {Fragment, useState} from 'react';
+import { Fragment, useState } from 'react';
 
 import type { ReactElement } from 'react';
 

@@ -56,6 +56,8 @@ const offerDetailsInitialState: OfferDetailsSliceState = {
   isReviewSending: false
 };
 
+const sortReviewsByDateDesc = (reviews: Review[]) => [...reviews].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
 const offersSlice = createSlice({
   name: 'offersSlice',
   initialState: offersInitialState,
@@ -154,7 +156,7 @@ const offerDetailsSlice = createSlice({
         state.reviews = [];
       })
       .addCase(fetchReviews.fulfilled, (state, action) => {
-        state.reviews = [...action.payload].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+        state.reviews = sortReviewsByDateDesc(action.payload);
         state.isReviewsLoading = false;
       })
       .addCase(fetchReviews.rejected, (state) => {
@@ -165,7 +167,7 @@ const offerDetailsSlice = createSlice({
         state.isReviewSending = true;
       })
       .addCase(postReview.fulfilled, (state, action) => {
-        state.reviews = [action.payload, ...state.reviews].slice(0, 10);
+        state.reviews = sortReviewsByDateDesc([action.payload, ...state.reviews]).slice(0, 10);
         state.isReviewSending = false;
       })
       .addCase(postReview.rejected, (state) => {

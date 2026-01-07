@@ -19,7 +19,7 @@ export function createAPI(): AxiosInstance {
       }
 
       const headers = config.headers;
-      headers.Authorization = `Bearer ${token}`;
+      headers['X-Token'] = token;
     }
     return config;
   });

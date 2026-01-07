@@ -14,11 +14,11 @@ import OffersList from '../../shared/OffersList/OffersList.tsx';
 import { dropToken } from '../../services/token.ts';
 import { AppRoute } from '../../types/RouteTypes.tsx';
 import { changeCity, logout, fetchOffers } from '../../store/actions';
-import { selectAuthStatus, selectCity, selectIsOffersLoading, selectOffersError, makeSelectPointsByCity, makeSelectSelectedPoint, makeSelectSortedOffersByCity, selectUser } from '../../store/selectors';
+import { selectAuthStatus, selectCityName, selectIsOffersLoading, selectOffersError, makeSelectPointsByCity, makeSelectSelectedPoint, makeSelectSortedOffersByCity, selectUser } from '../../store/selectors';
 
 export function MainPage(): ReactElement {
   const dispatch = useAppDispatch();
-  const city = useAppSelector(selectCity);
+  const city = useAppSelector(selectCityName);
   const isOffersLoading = useAppSelector(selectIsOffersLoading);
   const offersError = useAppSelector(selectOffersError);
   const authorizationStatus = useAppSelector(selectAuthStatus);

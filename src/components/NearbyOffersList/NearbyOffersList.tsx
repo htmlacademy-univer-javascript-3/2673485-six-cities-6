@@ -22,3 +22,4 @@ function NearbyOffersList({ offers }: NearbyOffersListProps): JSX.Element {
 
 export default NearbyOffersList;
 
+

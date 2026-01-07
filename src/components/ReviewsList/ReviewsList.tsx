@@ -22,3 +22,4 @@ function ReviewsList({ reviews }: ReviewsListProps): JSX.Element {
 
 export default ReviewsList;
 
+

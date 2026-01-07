@@ -1,6 +1,5 @@
 import { Card } from '../types/Card.tsx';
 
-// Предложения неподалеку от первого предложения (id: 1)
 export const nearbyOffers: Card[] = [
   {
     id: 2,
@@ -50,4 +49,5 @@ export const nearbyOffers: Card[] = [
 ];
 
 export default nearbyOffers;
+
 

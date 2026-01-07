@@ -1,4 +1,4 @@
-import { Navigate, Route} from 'react-router-dom';
+import { Navigate, Route } from 'react-router-dom';
 import { AppRoute } from '../../types/RouteTypes.tsx';
 import React from 'react';
 import Offer from '../../pages/offer/Offer.tsx';
